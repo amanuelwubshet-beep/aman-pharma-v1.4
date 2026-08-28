@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login / Register - Aman Pharma v1.4</title>
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" type="image/jpeg" href="/images/logo.jpg">
   <style>
     .auth-container { max-width: 460px; margin: 60px auto; padding: 0 20px; }
     .auth-box { background: #fff; border-radius: 16px; box-shadow: var(--shadow-lg); overflow: hidden; }
@@ -22,7 +23,7 @@
 </head>
 <body>
   <div class="top-bar"><div class="container"><span>Call us: +91 98765 43210 | info@amanpharma.com</span><div><a href="/auth">Login</a><a href="/store">Shop Now</a></div></div></div>
-  <nav class="navbar"><div class="container"><a href="/" class="logo"><div class="logo-icon">AP</div><div class="logo-text"><h1>Aman Pharma</h1><span>v1.4 HEALTHCARE</span></div></a><ul class="nav-links" id="navLinks"><li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/products">Products</a></li><li><a href="/store">Store</a></li><li><a href="/contact">Contact</a></li><li><a href="/cart" class="nav-btn">Cart (<span id="cartCount">0</span>)</a></li><li><a href="/auth" class="active nav-btn" id="authNav">Login</a></li></ul><div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div></div></nav>
+  <nav class="navbar"><div class="container"><a href="/" class="logo"><div class="logo-icon"><img src="/images/logo.jpg" alt="Aman Pharma"></div><div class="logo-text"><h1>Aman Pharma</h1><span>v1.4 HEALTHCARE</span></div></a><ul class="nav-links" id="navLinks"><li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/products">Products</a></li><li><a href="/store">Store</a></li><li><a href="/contact">Contact</a></li><li><a href="/cart" class="nav-btn">Cart (<span id="cartCount">0</span>)</a></li><li><a href="/auth" class="active nav-btn" id="authNav">Login</a></li></ul><div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div></div></nav>
 
   <div class="auth-container">
     <div class="auth-box">
@@ -31,7 +32,7 @@
         <button class="auth-tab" data-tab="register" onclick="switchTab('register')">Register</button>
       </div>
       <div class="auth-form active" id="loginForm">
-        <center><div class="logo-icon" style="width:60px;height:60px;font-size:1.8rem;margin-bottom:15px">AP</div></center>
+        <center><div class="logo-icon" style="width:60px;height:60px;margin-bottom:15px"><img src="/images/logo.jpg" alt="Aman Pharma"></div></center>
         <h3>Welcome Back</h3>
         <p>Login to your Aman Pharma account</p>
         <div class="error-msg" id="loginError"></div>
@@ -41,7 +42,7 @@
         <div class="demo-info">Demo Credentials:<br><strong>Admin (Wubshet):</strong> wubshet@amanpharma.com / admin123<br><strong>User (Aman):</strong> aman@amanpharma.com / user123</div>
       </div>
       <div class="auth-form" id="registerForm">
-        <center><div class="logo-icon" style="width:60px;height:60px;font-size:1.8rem;margin-bottom:15px">AP</div></center>
+        <center><div class="logo-icon" style="width:60px;height:60px;margin-bottom:15px"><img src="/images/logo.jpg" alt="Aman Pharma"></div></center>
         <h3>Create Account</h3>
         <p>Join Aman Pharma for exclusive offers</p>
         <div class="error-msg" id="regError"></div>

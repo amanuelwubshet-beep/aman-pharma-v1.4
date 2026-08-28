@@ -1,4 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Gondens';
+  src: url('/fonts/Gondens-DEMO.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
 
 :root {
   --white: #FFFFFF;
@@ -37,7 +44,8 @@ body {
 }
 
 h1, h2, h3, h4 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Gondens', 'Poppins', sans-serif;
+  letter-spacing: 0.5px;
 }
 
 a {
@@ -96,6 +104,15 @@ a {
   gap: 12px;
 }
 
+.logo img,
+.logo-icon-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: var(--shadow);
+}
+
 .logo-icon {
   width: 50px;
   height: 50px;
@@ -107,20 +124,22 @@ a {
   color: var(--white);
   font-size: 1.5rem;
   font-weight: 700;
+  overflow: hidden;
+}
+
+.logo-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
 }
 
 .logo-text h1 {
   font-size: 1.4rem;
   color: var(--green-dark);
   line-height: 1.2;
-}
-
-.logo-text span {
-  font-size: 0.75rem;
-  color: var(--gold);
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  letter-spacing: 2px;
+  font-family: 'Gondens', sans-serif;
+  letter-spacing: 1px;
 }
 
 .nav-links {
