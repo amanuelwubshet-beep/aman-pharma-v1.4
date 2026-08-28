@@ -1,0 +1,15 @@
+{
+  "name": "aman-pharma-v1.4",
+  "version": "1.4.0",
+  "description": "Aman Pharma v1.4 - Pharmaceutical Company Website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: aman-pharma-v1.4
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Aman Pharma v1.4</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="top-bar"><div class="container"><span>Call us: +91 98765 43210 | info@amanpharma.com</span><div><a href="/auth">Login</a><a href="/store">Shop Now</a></div></div></div>
+  <nav class="navbar"><div class="container"><a href="/" class="logo"><div class="logo-icon">AP</div><div class="logo-text"><h1>Aman Pharma</h1><span>v1.4 HEALTHCARE</span></div></a><ul class="nav-links" id="navLinks"><li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/products">Products</a></li><li><a href="/store">Store</a></li><li><a href="/contact" class="active">Contact</a></li><li><a href="/cart" class="nav-btn">Cart (<span id="cartCount">0</span>)</a></li><li><a href="/auth" class="nav-btn" id="authNav">Login</a></li></ul><div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div></div></nav>
+
+  <section class="contact-hero"><div class="container"><h2>Contact Us</h2><p>We'd love to hear from you. Reach out anytime!</p></div></section>
+
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-form">
+          <h3 style="font-size:1.5rem;color:var(--brown-dark);margin-bottom:25px">Send us a Message</h3>
+          <form id="contactForm">
+            <div class="form-group"><label>Full Name</label><input type="text" id="cName" required></div>
+            <div class="form-group"><label>Email Address</label><input type="email" id="cEmail" required></div>
+            <div class="form-group"><label>Phone Number</label><input type="tel" id="cPhone"></div>
+            <div class="form-group"><label>Subject</label><select id="cSubject"><option>General Inquiry</option><option>Product Inquiry</option><option>Bulk Order</option><option>Partnership</option><option>Complaint</option><option>Feedback</option></select></div>
+            <div class="form-group"><label>Message</label><textarea id="cMessage" required></textarea></div>
+            <button type="submit" class="btn-primary">Send Message</button>
+          </form>
+          <div class="success-message" id="contactSuccess">Message sent successfully! We'll get back to you soon.</div>
+        </div>
+        <div class="contact-info-cards">
+          <div class="info-card"><div class="info-card-icon">📍</div><div><h4>Our Office</h4><p>123 Pharma Hub, Andheri East<br>Mumbai, Maharashtra 400001</p></div></div>
+          <div class="info-card"><div class="info-card-icon">📞</div><div><h4>Phone</h4><p>+91 98765 43210<br>+91 22 4567 8900</p></div></div>
+          <div class="info-card"><div class="info-card-icon">✉️</div><div><h4>Email</h4><p>info@amanpharma.com<br>support@amanpharma.com</p></div></div>
+          <div class="info-card"><div class="info-card-icon">🕐</div><div><h4>Working Hours</h4><p>Monday - Saturday: 9AM - 9PM<br>Sunday: 10AM - 6PM</p></div></div>
+          <div class="info-card"><div class="info-card-icon">🚚</div><div><h4>Delivery</h4><p>Pan-India delivery<br>Free on orders above Rs.500</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-about"><a href="/" class="logo"><div class="logo-icon">AP</div><div class="logo-text"><h1 style="color:#fff">Aman Pharma</h1><span>v1.4</span></div></a><p>Quality healthcare for everyone.</p></div><div><h4>Links</h4><ul class="footer-links"><li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/store">Store</a></li><li><a href="/contact">Contact</a></li></ul></div><div><h4>Categories</h4><ul class="footer-links"><li><a href="/store?category=antibiotics">Antibiotics</a></li><li><a href="/store?category=supplements">Supplements</a></li></ul></div><div class="footer-contact"><h4>Contact</h4><p>📍 Mumbai, India</p><p>📞 +91 98765 43210</p></div></div><div class="footer-bottom"><p>&copy; 2026 Aman Pharma v1.4</p></div></div></footer>
+  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => { updateNavAuth(); updateCartCount(); });
+    document.getElementById('contactForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = { name: document.getElementById('cName').value, email: document.getElementById('cEmail').value, phone: document.getElementById('cPhone').value, subject: document.getElementById('cSubject').value, message: document.getElementById('cMessage').value };
+      const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      if (res.ok) { document.getElementById('contactSuccess').style.display = 'block'; e.target.reset(); setTimeout(() => document.getElementById('contactSuccess').style.display = 'none', 4000); }
+    });
+    window.addEventListener('scroll', () => { document.getElementById('scrollTop').style.display = window.scrollY > 400 ? 'flex' : 'none'; });
+  </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Store - Aman Pharma v1.4</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="top-bar"><div class="container"><span>Call us: +91 98765 43210 | info@amanpharma.com</span><div><a href="/auth">Login</a><a href="/store">Shop Now</a></div></div></div>
+  <nav class="navbar"><div class="container"><a href="/" class="logo"><div class="logo-icon">AP</div><div class="logo-text"><h1>Aman Pharma</h1><span>v1.4 HEALTHCARE</span></div></a><ul class="nav-links" id="navLinks"><li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/products">Products</a></li><li><a href="/store" class="active">Store</a></li><li><a href="/contact">Contact</a></li><li><a href="/cart" class="nav-btn">Cart (<span id="cartCount">0</span>)</a></li><li><a href="/auth" class="nav-btn" id="authNav">Login</a></li></ul><div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div></div></nav>
+
+  <section class="products-hero" style="background:linear-gradient(135deg,var(--gold-dark),var(--gold))"><div class="container"><h2>Online Pharmacy Store</h2><p>Shop genuine medicines and healthcare products with instant delivery</p></div></section>
+
+  <section class="section">
+    <div class="container">
+      <div style="display:flex;flex-wrap:wrap;gap:15px;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div style="flex:1;min-width:250px"><input type="text" id="searchInput" placeholder="Search medicines..." style="width:100%;padding:12px 16px;border:2px solid #e0e0e0;border-radius:30px;font-family:'Poppins',sans-serif;font-size:0.95rem"></div>
+        <select id="sortSelect" style="padding:12px 16px;border:2px solid #e0e0e0;border-radius:30px;font-family:'Poppins',sans-serif;font-size:0.95rem;background:#fff"><option value="">Sort by</option><option value="price-low">Price: Low to High</option><option value="price-high">Price: High to Low</option><option value="name">Name: A-Z</option></select>
+      </div>
+      <div class="category-filter" id="categoryFilter"><button class="filter-btn active" data-cat="all">All</button><button class="filter-btn" data-cat="antibiotics">Antibiotics</button><button class="filter-btn" data-cat="pain-relief">Pain Relief</button><button class="filter-btn" data-cat="supplements">Supplements</button><button class="filter-btn" data-cat="allergy">Allergy</button><button class="filter-btn" data-cat="gastro">Gastro</button><button class="filter-btn" data-cat="diabetes">Diabetes</button><button class="filter-btn" data-cat="cardio">Cardio</button><button class="filter-btn" data-cat="cold-flu">Cold & Flu</button></div>
+      <div class="products-page-grid" id="storeGrid"></div>
+    </div>
+  </section>
+
+  <section class="newsletter"><div class="container"><h3>Get 10% Off Your First Order</h3><p>Subscribe and use code WELCOME10 at checkout</p><form class="newsletter-form" id="newsletterForm"><input type="email" placeholder="Enter your email" required><button type="submit">Subscribe</button></form><div class="success-message" id="newsletterSuccess">Subscribed!</div></div></section>
+
+  <footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-about"><a href="/" class="logo"><div class="logo-icon">AP</div><div class="logo-text"><h1 style="color:#fff">Aman Pharma</h1><span>v1.4</span></div></a><p>Quality healthcare for everyone.</p></div><div><h4>Links</h4><ul class="footer-links"><li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/store">Store</a></li><li><a href="/contact">Contact</a></li></ul></div><div><h4>Categories</h4><ul class="footer-links"><li><a href="/store?category=antibiotics">Antibiotics</a></li><li><a href="/store?category=supplements">Supplements</a></li></ul></div><div class="footer-contact"><h4>Contact</h4><p>📍 Mumbai, India</p><p>📞 +91 98765 43210</p></div></div><div class="footer-bottom"><p>&copy; 2026 Aman Pharma v1.4</p></div></div></footer>
+  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+  <script src="/js/app.js"></script>
+  <script>
+    let currentCat = 'all', currentSort = '', currentSearch = '';
+    document.addEventListener('DOMContentLoaded', () => {
+      updateNavAuth(); updateCartCount();
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('category')) { currentCat = params.get('category'); document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === currentCat)); }
+      loadStore();
+    });
+    document.getElementById('categoryFilter').addEventListener('click', e => { if (e.target.classList.contains('filter-btn')) { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); e.target.classList.add('active'); currentCat = e.target.dataset.cat; loadStore(); } });
+    document.getElementById('sortSelect').addEventListener('change', e => { currentSort = e.target.value; loadStore(); });
+    document.getElementById('searchInput').addEventListener('input', e => { currentSearch = e.target.value; loadStore(); });
+    async function loadStore() {
+      const params = new URLSearchParams({ category: currentCat, sort: currentSort, search: currentSearch });
+      const res = await fetch('/api/products?' + params);
+      const { products } = await res.json();
+      const grid = document.getElementById('storeGrid');
+      if (!products.length) { grid.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;padding:40px">No products found. Try a different search.</p>'; return; }
+      grid.innerHTML = products.map(p => `
+        <div class="product-card">
+          <div class="product-image cat${(p.id % 6) + 1}"><span style="font-size:3rem">${p.icon}</span>${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}</div>
+          <div class="product-info">
+            <h3>${p.name}</h3>
+            <p>${p.description}</p>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+              <div><span style="font-size:1.3rem;font-weight:700;color:var(--green)">Rs.${p.price}</span> <span style="text-decoration:line-through;color:#999;font-size:0.85rem">Rs.${p.originalPrice}</span></div>
+              <span style="color:var(--text-muted);font-size:0.8rem">Stock: ${p.stock}</span>
+            </div>
+            <div style="margin-top:15px;display:flex;gap:10px">
+              <button onclick="addToCart(${p.id})" style="flex:1;background:var(--green);color:#fff;border:none;padding:10px;border-radius:8px;font-family:'Poppins',sans-serif;font-weight:600;cursor:pointer;transition:all .3s">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+    window.addEventListener('scroll', () => { document.getElementById('scrollTop').style.display = window.scrollY > 400 ? 'flex' : 'none'; });
+  </script>
+</body>
+</html>

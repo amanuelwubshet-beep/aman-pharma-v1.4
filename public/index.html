@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aman Pharma v1.4 - Premium Pharmaceutical Healthcare</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="top-bar">
+    <div class="container">
+      <span>Call us: +91 98765 43210 | info@amanpharma.com</span>
+      <div>
+        <a href="/auth">Login</a>
+        <a href="/store">Shop Now</a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="logo">
+        <div class="logo-icon">AP</div>
+        <div class="logo-text">
+          <h1>Aman Pharma</h1>
+          <span>v1.4 HEALTHCARE</span>
+        </div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/store">Store</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/cart" class="nav-btn">Cart (<span id="cartCount">0</span>)</a></li>
+        <li><a href="/auth" class="nav-btn" id="authNav">Login</a></li>
+      </ul>
+      <div class="hamburger" onclick="toggleNav()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">India's Trusted Pharmaceutical Brand</div>
+        <h2>Your Health, <span>Our Priority</span></h2>
+        <p>Aman Pharma v1.4 brings you premium quality medicines, supplements, and healthcare products. Trusted by 50,000+ customers across India with WHO-GMP certified manufacturing.</p>
+        <div class="hero-buttons">
+          <a href="/store" class="btn-primary">Explore Store</a>
+          <a href="/about" class="btn-secondary">Learn More</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <h3>50K+</h3>
+            <p>Happy Customers</p>
+          </div>
+          <div class="stat">
+            <h3>500+</h3>
+            <p>Products</p>
+          </div>
+          <div class="stat">
+            <h3>15+</h3>
+            <p>Years Experience</p>
+          </div>
+          <div class="stat">
+            <h3>200+</h3>
+            <p>Cities Served</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section features">
+    <div class="container">
+      <div class="section-header">
+        <div class="tag">Why Choose Us</div>
+        <h2>Healthcare Excellence</h2>
+        <p>We deliver quality medicines with care, certified standards, and unmatched service</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon green">🏥</div>
+          <h3>WHO-GMP Certified</h3>
+          <p>All products manufactured in WHO-GMP certified facilities ensuring highest quality standards.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon gold">🚚</div>
+          <h3>Fast Delivery</h3>
+          <p>Free delivery on orders above Rs.500. Same-day dispatch for orders placed before 2 PM.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon brown">🔒</div>
+          <h3>Secure Shopping</h3>
+          <p>100% secure payments with SSL encryption. Your data is always protected with us.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon green">👨‍⚕️</div>
+          <h3>Expert Consultation</h3>
+          <p>Free pharmacist consultation with every order. Get expert advice on your health.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon gold">💰</div>
+          <h3>Best Prices</h3>
+          <p>Competitive pricing with regular discounts. Save up to 30% on MRP on all products.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon brown">📱</div>
+          <h3>Easy Returns</h3>
+          <p>Hassle-free return policy within 7 days. Full refund guaranteed on defective products.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="about-preview">
+        <div class="about-image">
+          <div class="about-image-text">
+            <div class="big-number">15+</div>
+            <p>Years of Trusted Service</p>
+          </div>
+        </div>
+        <div class="about-content">
+          <div class="tag">About Aman Pharma</div>
+          <h2>Dedicated to Your Well-being</h2>
+          <p>Founded in 2010, Aman Pharma has grown from a small pharmacy to one of India's most trusted pharmaceutical brands. Our commitment to quality and customer satisfaction drives everything we do.</p>
+          <p>We specialize in manufacturing and distributing a wide range of pharmaceutical products including antibiotics, supplements, pain relief, diabetes care, and cardiovascular medications.</p>
+          <ul class="about-list">
+            <li>WHO-GMP & ISO 9001:2015 Certified</li>
+            <li>500+ Products across 12 categories</li>
+            <li>Distribution network across 200+ cities</li>
+            <li>24/7 customer support</li>
+          </ul>
+          <a href="/about" class="btn-primary">Read More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--off-white);">
+    <div class="container">
+      <div class="section-header">
+        <div class="tag">Featured Products</div>
+        <h2>Popular Medicines</h2>
+        <p>Our best-selling pharmaceutical products trusted by doctors and patients</p>
+      </div>
+      <div class="products-grid" id="featuredProducts"></div>
+      <div style="text-align:center; margin-top:40px;">
+        <a href="/store" class="btn-primary">View All Products</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <h2>Start Shopping Today</h2>
+      <p>Get genuine medicines delivered to your doorstep. First order? Use code WELCOME10 for 10% off!</p>
+      <a href="/store" class="btn-primary">Shop Now</a>
+    </div>
+  </section>
+
+  <section class="section testimonials">
+    <div class="container">
+      <div class="section-header">
+        <div class="tag">Testimonials</div>
+        <h2>What Our Customers Say</h2>
+        <p>Trusted by thousands of happy customers across India</p>
+      </div>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <p>Aman Pharma has been my go-to for all medicines. The quality is top-notch and delivery is always on time. Highly recommended!</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">RS</div>
+            <div class="author-info">
+              <h4>Dr. Rajesh Singh</h4>
+              <span>General Physician, Mumbai</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p>Best online pharmacy in India! The prices are genuine and the customer support team is very helpful. 5 stars!</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">AP</div>
+            <div class="author-info">
+              <h4>Anita Patel</h4>
+              <span>Regular Customer, Delhi</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p>As a hospital administrator, I rely on Aman Pharma for bulk orders. Their service and quality are consistently excellent.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">MK</div>
+            <div class="author-info">
+              <h4>Dr. Manoj Kumar</h4>
+              <span>Hospital Director, Bangalore</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter">
+    <div class="container">
+      <h3>Subscribe to Our Newsletter</h3>
+      <p>Get health tips, product updates, and exclusive offers delivered to your inbox</p>
+      <form class="newsletter-form" id="newsletterForm">
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+      </form>
+      <div class="success-message" id="newsletterSuccess">Subscribed successfully!</div>
+    </div>
+  </section>
+
+  <section class="partners">
+    <div class="container">
+      <h3>Trusted By Leading Healthcare Organizations</h3>
+      <div class="partner-logos">
+        <div class="partner-logo">AIIMS</div>
+        <div class="partner-logo">MAX Healthcare</div>
+        <div class="partner-logo">Apollo</div>
+        <div class="partner-logo">Fortis</div>
+        <div class="partner-logo">Manipal</div>
+        <div class="partner-logo">Narayana Health</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="/" class="logo">
+            <div class="logo-icon">AP</div>
+            <div class="logo-text">
+              <h1 style="color:#fff">Aman Pharma</h1>
+              <span>v1.4 HEALTHCARE</span>
+            </div>
+          </a>
+          <p>Your trusted pharmaceutical partner since 2010. Quality medicines, affordable prices, and doorstep delivery across India.</p>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/products">Products</a></li>
+            <li><a href="/store">Online Store</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Categories</h4>
+          <ul class="footer-links">
+            <li><a href="/store?category=antibiotics">Antibiotics</a></li>
+            <li><a href="/store?category=pain-relief">Pain Relief</a></li>
+            <li><a href="/store?category=supplements">Supplements</a></li>
+            <li><a href="/store?category=diabetes">Diabetes Care</a></li>
+            <li><a href="/store?category=cardio">Cardiovascular</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact Us</h4>
+          <p>📍 123 Pharma Hub, Mumbai 400001</p>
+          <p>📞 +91 98765 43210</p>
+          <p>✉️ info@amanpharma.com</p>
+          <p>🕐 Mon-Sat: 9AM - 9PM</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Aman Pharma v1.4. All rights reserved.</p>
+        <div class="footer-social">
+          <a href="#">f</a>
+          <a href="#">tw</a>
+          <a href="#">in</a>
+          <a href="#">ig</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      updateNavAuth();
+      updateCartCount();
+      try {
+        const res = await fetch('/api/products?sort=name');
+        const { products } = await res.json();
+        const featured = products.slice(0, 6);
+        const grid = document.getElementById('featuredProducts');
+        grid.innerHTML = featured.map(p => `
+          <div class="product-card">
+            <div class="product-image cat${(p.id % 6) + 1}">
+              <span style="font-size:3rem">${p.icon}</span>
+              ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+            </div>
+            <div class="product-info">
+              <h3>${p.name}</h3>
+              <p>${p.description}</p>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+                <div>
+                  <span style="font-size:1.3rem;font-weight:700;color:var(--green)">Rs.${p.price}</span>
+                  <span style="text-decoration:line-through;color:#999;font-size:0.85rem;margin-left:6px">Rs.${p.originalPrice}</span>
+                </div>
+                <a href="/store" class="product-link">Shop →</a>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } catch(e) {}
+    });
+
+    document.getElementById('newsletterForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = e.target.querySelector('input').value;
+      try {
+        const res = await fetch('/api/newsletter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        if (res.ok) {
+          document.getElementById('newsletterSuccess').style.display = 'block';
+          e.target.reset();
+          setTimeout(() => document.getElementById('newsletterSuccess').style.display = 'none', 3000);
+        }
+      } catch(e) {}
+    });
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('scrollTop').style.display = window.scrollY > 400 ? 'flex' : 'none';
+    });
+  </script>
+</body>
+</html>

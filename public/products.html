@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - Aman Pharma v1.4</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="top-bar"><div class="container"><span>Call us: +91 98765 43210 | info@amanpharma.com</span><div><a href="/auth">Login</a><a href="/store">Shop Now</a></div></div></div>
+  <nav class="navbar"><div class="container"><a href="/" class="logo"><div class="logo-icon">AP</div><div class="logo-text"><h1>Aman Pharma</h1><span>v1.4 HEALTHCARE</span></div></a><ul class="nav-links" id="navLinks"><li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/products" class="active">Products</a></li><li><a href="/store">Store</a></li><li><a href="/contact">Contact</a></li><li><a href="/cart" class="nav-btn">Cart (<span id="cartCount">0</span>)</a></li><li><a href="/auth" class="nav-btn" id="authNav">Login</a></li></ul><div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div></div></nav>
+
+  <section class="products-hero"><div class="container"><h2>Our Products</h2><p>Comprehensive range of quality pharmaceuticals across multiple categories</p></div></section>
+
+  <section class="section">
+    <div class="container">
+      <div class="category-filter" id="categoryFilter">
+        <button class="filter-btn active" data-cat="all">All Products</button>
+        <button class="filter-btn" data-cat="antibiotics">Antibiotics</button>
+        <button class="filter-btn" data-cat="pain-relief">Pain Relief</button>
+        <button class="filter-btn" data-cat="supplements">Supplements</button>
+        <button class="filter-btn" data-cat="allergy">Allergy</button>
+        <button class="filter-btn" data-cat="gastro">Gastro</button>
+        <button class="filter-btn" data-cat="diabetes">Diabetes</button>
+        <button class="filter-btn" data-cat="cardio">Cardiovascular</button>
+        <button class="filter-btn" data-cat="cold-flu">Cold & Flu</button>
+      </div>
+      <div class="products-page-grid" id="productsGrid"></div>
+    </div>
+  </section>
+
+  <section class="section why-us">
+    <div class="container">
+      <div class="section-header"><div class="tag">Why Aman Pharma</div><h2>The Aman Advantage</h2></div>
+      <div class="why-us-grid">
+        <div class="why-card"><div class="icon">🔬</div><h3>Lab Tested</h3><p>Every batch is tested in NABL-accredited laboratories</p></div>
+        <div class="why-card"><div class="icon">📦</div><h3>Safe Packaging</h3><p>Temperature-controlled packaging for product integrity</p></div>
+        <div class="why-card"><div class="icon">💊</div><h3>Genuine Medicines</h3><p>100% authentic products sourced from licensed manufacturers</p></div>
+        <div class="why-card"><div class="icon">⚡</div><h3>Quick Dispatch</h3><p>Orders shipped within 24 hours of placement</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-about"><a href="/" class="logo"><div class="logo-icon">AP</div><div class="logo-text"><h1 style="color:#fff">Aman Pharma</h1><span>v1.4</span></div></a><p>Quality healthcare for everyone.</p></div><div><h4>Links</h4><ul class="footer-links"><li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/store">Store</a></li><li><a href="/contact">Contact</a></li></ul></div><div><h4>Categories</h4><ul class="footer-links"><li><a href="/store?category=antibiotics">Antibiotics</a></li><li><a href="/store?category=supplements">Supplements</a></li></ul></div><div class="footer-contact"><h4>Contact</h4><p>📍 Mumbai, India</p><p>📞 +91 98765 43210</p></div></div><div class="footer-bottom"><p>&copy; 2026 Aman Pharma v1.4</p></div></div></footer>
+  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+  <script src="/js/app.js"></script>
+  <script>
+    let currentCat = 'all';
+    document.addEventListener('DOMContentLoaded', () => {
+      updateNavAuth(); updateCartCount();
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('category')) { currentCat = params.get('category'); document.querySelectorAll('.filter-btn').forEach(b => { b.classList.toggle('active', b.dataset.cat === currentCat); }); }
+      loadProducts();
+    });
+    document.getElementById('categoryFilter').addEventListener('click', e => {
+      if (e.target.classList.contains('filter-btn')) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        currentCat = e.target.dataset.cat;
+        loadProducts();
+      }
+    });
+    async function loadProducts() {
+      const res = await fetch('/api/products?category=' + currentCat);
+      const { products } = await res.json();
+      document.getElementById('productsGrid').innerHTML = products.map(p => `
+        <div class="product-card">
+          <div class="product-image cat${(p.id % 6) + 1}"><span style="font-size:3rem">${p.icon}</span>${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}</div>
+          <div class="product-info">
+            <h3>${p.name}</h3>
+            <p>${p.description}</p>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+              <div><span style="font-size:1.3rem;font-weight:700;color:var(--green)">Rs.${p.price}</span> <span style="text-decoration:line-through;color:#999;font-size:0.85rem">Rs.${p.originalPrice}</span></div>
+              <span style="color:var(--text-muted);font-size:0.85rem">${p.stock} in stock</span>
+            </div>
+            <div style="margin-top:15px;display:flex;gap:10px">
+              <a href="/store" class="product-link" style="flex:1;justify-content:center;border:2px solid var(--green);padding:8px;border-radius:8px;text-align:center">View in Store →</a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+    window.addEventListener('scroll', () => { document.getElementById('scrollTop').style.display = window.scrollY > 400 ? 'flex' : 'none'; });
+  </script>
+</body>
+</html>

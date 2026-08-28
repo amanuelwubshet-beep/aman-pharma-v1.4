@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - Aman Pharma v1.4</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .cart-empty { text-align:center; padding:80px 20px; }
+    .cart-empty .big { font-size:4rem; margin-bottom:15px; }
+    .cart-item { display:flex; gap:20px; background:#fff; padding:20px; border-radius:12px; box-shadow:var(--shadow); margin-bottom:15px; align-items:center; flex-wrap:wrap; }
+    .cart-item-icon { width:70px; height:70px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:2rem; }
+    .cart-item-info { flex:1; min-width:200px; }
+    .qty-control { display:flex; align-items:center; gap:10px; }
+    .qty-control button { width:32px; height:32px; border-radius:8px; border:2px solid #e0e0e0; background:#fff; cursor:pointer; font-size:1.1rem; font-weight:700; }
+    .qty-control button:hover { border-color:var(--green); color:var(--green); }
+    .remove-btn { background:#dc3545; color:#fff; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-family:'Poppins',sans-serif; }
+    .cart-summary { background:#fff; padding:25px; border-radius:12px; box-shadow:var(--shadow); position:sticky; top:120px; }
+    .summary-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee; }
+    .checkout-form { margin-top:15px; }
+    .checkout-form label { display:block; margin:10px 0 5px; font-weight:500; font-size:0.9rem; }
+    .checkout-form input, .checkout-form select { width:100%; padding:10px 14px; border:2px solid #e0e0e0; border-radius:8px; font-family:'Poppins',sans-serif; }
+  </style>
+</head>
+<body>
+  <div class="top-bar"><div class="container"><span>Call us: +91 98765 43210 | info@amanpharma.com</span><div><a href="/auth">Login</a><a href="/store">Shop Now</a></div></div></div>
+  <nav class="navbar"><div class="container"><a href="/" class="logo"><div class="logo-icon">AP</div><div class="logo-text"><h1>Aman Pharma</h1><span>v1.4 HEALTHCARE</span></div></a><ul class="nav-links" id="navLinks"><li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/products">Products</a></li><li><a href="/store">Store</a></li><li><a href="/contact">Contact</a></li><li><a href="/cart" class="active nav-btn">Cart (<span id="cartCount">0</span>)</a></li><li><a href="/auth" class="nav-btn" id="authNav">Login</a></li></ul><div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div></div></nav>
+
+  <section class="products-hero"><div class="container"><h2>Shopping Cart</h2><p>Review your items and proceed to checkout</p></div></section>
+
+  <section class="section">
+    <div class="container">
+      <div id="cartContainer"></div>
+    </div>
+  </section>
+
+  <footer class="footer"><div class="container"><div class="footer-bottom"><p>&copy; 2026 Aman Pharma v1.4</p></div></div></footer>
+  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+  <script src="/js/app.js"></script>
+  <script>
+    let cartProducts = {};
+    document.addEventListener('DOMContentLoaded', () => {
+      updateNavAuth(); updateCartCount();
+      loadCart();
+    });
+    async function loadCart() {
+      if (!isLoggedIn()) { document.getElementById('cartContainer').innerHTML = `<div class="cart-empty"><div class="big">🛒</div><h3 style="color:var(--brown-dark);margin-bottom:10px">Please login to view your cart</h3><p style="color:var(--text-muted);margin-bottom:20px">Login or create an account to continue shopping</p><a href="/auth" class="btn-primary">Login / Register</a></div>`; return; }
+      const res = await fetch('/api/cart', { headers: authHeaders() });
+      if (res.status === 401) { window.location.href = '/auth'; return; }
+      const { cart } = await res.json();
+      const prodRes = await fetch('/api/products');
+      const { products } = await prodRes.json();
+      cartProducts = {};
+      products.forEach(p => cartProducts[p.id] = p);
+      renderCart(cart);
+    }
+    function renderCart(cart) {
+      const container = document.getElementById('cartContainer');
+      if (!cart || !cart.length) {
+        container.innerHTML = `<div class="cart-empty"><div class="big">🛒</div><h3 style="color:var(--brown-dark);margin-bottom:10px">Your cart is empty</h3><p style="color:var(--text-muted);margin-bottom:20px">Browse our store and add some medicines</p><a href="/store" class="btn-primary">Go to Store</a></div>`;
+        return;
+      }
+      let subtotal = 0;
+      const items = cart.map(ci => { const p = cartProducts[ci.productId]; if (!p) return null; subtotal += p.price * ci.qty; return { ci, p }; }).filter(Boolean);
+      const shipping = subtotal > 500 ? 0 : 50;
+      const total = subtotal + shipping;
+      container.innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 340px;gap:30px">
+          <div>
+            ${items.map(({ ci, p }) => `
+              <div class="cart-item" style="background:${(p.id % 6) + 1}'">
+                <div class="cart-item-icon" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9)">${p.icon}</div>
+                <div class="cart-item-info">
+                  <h4 style="color:var(--brown-dark);font-family:'Poppins',sans-serif;font-size:1.05rem">${p.name}</h4>
+                  <p style="color:var(--text-muted);font-size:0.85rem">Rs.${p.price} each</p>
+                  <div class="qty-control" style="margin-top:10px">
+                    <button onclick="changeQty(${p.id}, ${ci.qty - 1})">−</button>
+                    <span style="font-weight:600;min-width:30px;text-align:center">${ci.qty}</span>
+                    <button onclick="changeQty(${p.id}, ${ci.qty + 1})">+</button>
+                  </div>
+                </div>
+                <div style="text-align:right">
+                  <div style="font-size:1.2rem;font-weight:700;color:var(--green);margin-bottom:10px">Rs.${p.price * ci.qty}</div>
+                  <button class="remove-btn" onclick="removeItem(${p.id})">Remove</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          <div class="cart-summary">
+            <h3 style="color:var(--brown-dark);margin-bottom:15px;font-size:1.3rem">Order Summary</h3>
+            <div class="summary-row"><span>Subtotal</span><span>Rs.${subtotal}</span></div>
+            <div class="summary-row"><span>Shipping</span><span>${shipping === 0 ? '<span style="color:var(--green)">FREE</span>' : 'Rs.' + shipping}</span></div>
+            <div class="summary-row" style="border-bottom:none;font-weight:700;font-size:1.2rem"><span>Total</span><span style="color:var(--green)">Rs.${total}</span></div>
+            <form class="checkout-form" onsubmit="checkout(event)">
+              <label>Delivery Address</label>
+              <input type="text" id="address" placeholder="Full delivery address" required>
+              <label>Payment Method</label>
+              <select id="payment"><option value="cod">Cash on Delivery</option><option value="card">Credit/Debit Card</option><option value="upi">UPI</option></select>
+              <button type="submit" style="width:100%;margin-top:20px;padding:14px;background:var(--gold);color:#fff;border:none;border-radius:30px;font-size:1rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif">Place Order</button>
+            </form>
+          </div>
+        </div>
+      `;
+    }
+    async function changeQty(productId, qty) {
+      if (qty <= 0) { removeItem(productId); return; }
+      const res = await fetch('/api/cart/update', { method: 'PUT', headers: { ...authHeaders(), 'Content-Type': 'application/json' }, body: JSON.stringify({ productId, qty }) });
+      if (res.ok) { const { cart } = await res.json(); updateCartCount(); renderCart(cart); }
+    }
+    async function removeItem(productId) {
+      const res = await fetch('/api/cart/remove/' + productId, { method: 'DELETE', headers: authHeaders() });
+      if (res.ok) { const { cart } = await res.json(); updateCartCount(); renderCart(cart); }
+    }
+    async function checkout(e) {
+      e.preventDefault();
+      const address = document.getElementById('address').value;
+      const paymentMethod = document.getElementById('payment').value;
+      const res = await fetch('/api/orders', { method: 'POST', headers: { ...authHeaders(), 'Content-Type': 'application/json' }, body: JSON.stringify({ address, paymentMethod }) });
+      if (res.ok) {
+        const { order } = await res.json();
+        updateCartCount();
+        document.getElementById('cartContainer').innerHTML = `<div class="cart-empty"><div class="big">✅</div><h3 style="color:var(--green);margin-bottom:10px">Order Placed Successfully!</h3><p style="color:var(--text-muted);margin-bottom:10px">Order ID: #${order.id}</p><p style="color:var(--text-muted);margin-bottom:20px">Total: Rs.${order.total} (${order.paymentMethod.toUpperCase()})</p><a href="/store" class="btn-primary">Continue Shopping</a></div>`;
+      } else {
+        const err = await res.json();
+        alert(err.error || 'Checkout failed');
+      }
+    }
+    window.addEventListener('scroll', () => { document.getElementById('scrollTop').style.display = window.scrollY > 400 ? 'flex' : 'none'; });
+  </script>
+</body>
+</html>
