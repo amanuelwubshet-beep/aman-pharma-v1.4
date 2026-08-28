@@ -1,10 +1,14 @@
 services:
   - type: web
     name: aman-pharma-v1.4
-    runtime: node
+    env: node
+    region: oregon
     plan: free
     buildCommand: npm install
     startCommand: npm start
+    healthCheckPath: /api/health
     envVars:
+      - key: NODE_VERSION
+        value: "20"
       - key: NODE_ENV
         value: production

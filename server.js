@@ -300,6 +300,10 @@ app.post('/api/newsletter', (req, res) => {
 const pages = ['index', 'about', 'products', 'contact', 'store', 'cart', 'auth', 'admin'];
 const routes = { '/': 'index.html', '/about': 'about.html', '/products': 'products.html', '/contact': 'contact.html', '/store': 'store.html', '/cart': 'cart.html', '/auth': 'auth.html', '/admin': 'admin.html' };
 
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok', service: 'aman-pharma-v1.4', uptime: Math.floor(process.uptime()) });
+});
+
 Object.entries(routes).forEach(([route, file]) => {
   app.get(route, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', file));
